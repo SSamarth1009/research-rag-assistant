@@ -1,0 +1,151 @@
+================================================================================
+GOOGLE LLC — Wikipedia Data Extract
+Source: https://en.wikipedia.org/wiki/Google
+Date Extracted: May 19, 2026
+================================================================================
+
+OVERVIEW
+--------
+Google LLC is an American multinational technology corporation focused on information
+technology, online advertising, search engine technology, cloud computing, software,
+quantum computing, e-commerce, consumer electronics, and artificial intelligence (AI).
+It has been referred to as "the most powerful company in the world" by the BBC, and
+is one of the world's most valuable brands. Google is a wholly owned subsidiary of
+Alphabet Inc., its parent holding company.
+
+COMPANY PROFILE
+---------------
+Full Name:        Google LLC (formerly Google Inc., 1998–2017)
+Type:             Subsidiary (of Alphabet Inc.)
+Traded As:        Nasdaq: GOOGL / GOOG (via Alphabet Inc.)
+Founded:          September 4, 1998 (Menlo Park, California, U.S.)
+Founders:         Larry Page, Sergey Brin
+Headquarters:     Googleplex, Mountain View, California, U.S.
+Area Served:      Worldwide
+Parent Company:   Alphabet Inc. (restructured October 2, 2015)
+Current CEO:      Sundar Pichai (CEO of both Google and Alphabet)
+Key People:       John L. Hennessy (Chairman); Ruth Porat (President & CIO);
+                  Anat Ashkenazi (CFO)
+Employees:        ~187,000 (2022)
+Website:          about.google
+
+KEY PRODUCTS & SERVICES
+-----------------------
+Search & Navigation:   Google Search, Google Maps, Google Earth, Waze
+Email & Productivity:  Gmail, Google Workspace (Docs, Sheets, Slides, Drive)
+Browser & OS:          Google Chrome, Android, ChromeOS
+Video & Media:         YouTube, YouTube Music, YouTube TV
+Cloud Computing:       Google Cloud Platform
+Devices & Hardware:    Pixel smartphones, Pixel Watch, Nest (smart home),
+                       Fitbit (wearables), Google TV
+AI & ML:               Google Assistant, Gemini (AI chatbot), TensorFlow (ML
+                       framework), TPU (AI chips), Google DeepMind
+Other Services:        Google Translate, Google Photos, Google Meet,
+                       Google Store, reCAPTCHA
+Research Ventures:     Waymo (self-driving cars), Google Quantum AI (Willow chip)
+
+SUBSIDIARIES
+------------
+- YouTube
+- Nest Labs
+- X Development
+- Waze
+- Adscape
+- FeedBurner
+- Cameyo
+- reCAPTCHA
+- ZipDash
+- Charleston Road Registry
+
+HISTORY
+-------
+January 1996  Larry Page and Sergey Brin began a research project at Stanford
+              University, studying the mathematical link structure of the Web.
+              Their algorithm PageRank determined a page's relevance by the
+              number and importance of pages linking back to it. Unofficial
+              "third founder" Scott Hassan wrote much of the original code.
+
+1997          The search engine was renamed "Google" — a deliberate misspelling
+              of "googol" (10^100), signifying the vast quantity of information
+              it aimed to index.
+
+August 1998   Google received its first investment: $100,000 from Andy
+              Bechtolsheim, co-founder of Sun Microsystems.
+
+September 4, 1998  Google officially incorporated in Menlo Park, California.
+
+June 1999     New funding round of $25 million, with major investors Kleiner
+              Perkins and Sequoia Capital.
+
+2000          Google began selling keyword-based advertisements (text ads to
+              maintain page speed and design). This laid the foundation for
+              Google's dominant advertising business model.
+
+2003          Google acquired Pyra Labs (Blogger). Moved to Googleplex in
+              Mountain View (leased from Silicon Graphics at 1600 Amphitheatre
+              Parkway; purchased in 2006 for $319 million).
+
+2004          IPO (initial public offering). Google News launched (2002),
+              Gmail launched.
+
+2005          Google Maps launched.
+
+2006          YouTube acquired for $1.65 billion.
+
+2008          Google Chrome browser launched.
+
+2014          Google acquired DeepMind Technologies (AI company) for ~$400 million.
+
+2015          Google reorganized as a wholly owned subsidiary of the newly
+              formed Alphabet Inc. (October 2, 2015). Sundar Pichai became
+              CEO of Google; Larry Page became CEO of Alphabet.
+
+2019          Google+ social network shut down (April). Larry Page and Sergey
+              Brin resigned from executive roles at Alphabet (December).
+
+2019          Sundar Pichai became CEO of Alphabet Inc. (December 3, 2019).
+
+2022          Stock split completed (mid-year). Google laid off ~12,000
+              employees (6% of global workforce) in January 2023.
+
+2025          Alphabet acquired Wiz (cloud security company) for $32 billion —
+              its largest-ever acquisition.
+
+PARENT COMPANY — ALPHABET INC.
+--------------------------------
+Alphabet Inc. was created on October 2, 2015, through a restructuring of Google.
+It became the parent holding company of Google and several former Google subsidiaries,
+including X Development, Calico, Nest, Verily, Fiber, CapitalG, and GV. Alphabet is
+listed as the world's second-largest technology company by revenue (after Nvidia),
+the largest technology company by profit, and among the world's most valuable companies.
+
+MARKET LEADERSHIP
+-----------------
+Google is the world's largest provider of:
+  - Search engines
+  - Mapping and navigation applications
+  - Email services
+  - Office suites
+  - Online video platforms
+  - Photo and cloud storage
+  - Mobile operating systems (Android)
+  - Web browsers (Chrome)
+  - Machine learning frameworks (TensorFlow)
+  - AI virtual assistants (Google Assistant / Gemini)
+
+Google Search and YouTube are the two most-visited websites in the world.
+Google was ranked 2nd most valuable brand by Forbes (January 2022) and
+4th by Interbrand (February 2022).
+
+NOTABLE FACTS
+-------------
+- In 1998, Page and Brin proposed to sell Google to Yahoo for $1 million — refused.
+- Larry Page co-founded Alphabet after the restructuring of Google in 2015.
+- Has faced criticism over privacy, tax avoidance, censorship, antitrust issues,
+  and abuse of monopoly position.
+- Google acquired on average more than one company per week in 2010 and 2011.
+- As of 2025, Alphabet has acquired over 200 companies in total.
+
+================================================================================
+END OF FILE
+================================================================================

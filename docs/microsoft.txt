@@ -1,0 +1,118 @@
+================================================================================
+MICROSOFT CORPORATION — Wikipedia Data Extract
+Source: https://en.wikipedia.org/wiki/Microsoft
+Date Extracted: May 19, 2026
+================================================================================
+
+OVERVIEW
+--------
+Microsoft Corporation is an American multinational technology company headquartered
+in Redmond, Washington. It became influential in the rise of personal computers
+through software like Windows and has since expanded into areas such as Internet
+services, cloud computing, artificial intelligence, video gaming, and more. A Big
+Tech company, Microsoft is the largest software company by revenue, one of the most
+valuable public companies, and one of the most valuable brands globally.
+
+COMPANY PROFILE
+---------------
+Full Name:        Microsoft Corporation
+Type:             Public (Nasdaq: MSFT)
+Founded:          April 4, 1975
+Founders:         Bill Gates, Paul Allen
+Headquarters:     One Microsoft Way, Redmond, Washington, U.S.
+Area Served:      Worldwide
+Current CEO:      Satya Nadella (Chairman & CEO)
+Employees:        228,000 (2025)
+Website:          microsoft.com
+
+FINANCIAL DATA (2025)
+---------------------
+Revenue:          US$281.7 billion
+Operating Income: US$128.5 billion
+Net Income:       US$101.8 billion
+Total Assets:     US$619.0 billion
+Total Equity:     US$343.5 billion
+
+KEY PRODUCTS & SERVICES
+-----------------------
+Software:   Windows OS, Microsoft 365, Office Suite (Word, Excel, PowerPoint),
+            Visual Studio, Teams, Dynamics
+Hardware:   Microsoft Surface (PCs/tablets), Xbox gaming consoles, HoloLens (AR)
+Cloud:      Microsoft Azure (cloud computing platform)
+Internet:   Bing (search), Outlook.com, MSN, Microsoft Store, OneDrive
+Enterprise: SQL Server, GitHub, LinkedIn
+Gaming:     Xbox, Xbox Network, Game Pass, Microsoft Gaming division
+
+SUBSIDIARIES / MAJOR BRANDS
+----------------------------
+- GitHub (acquired 2018)
+- LinkedIn (acquired 2016, $26.2 billion)
+- Skype Technologies (acquired 2011, $8.5 billion)
+- Activision Blizzard (acquired 2023, $68.7 billion — largest acquisition)
+- Xbox brand / Microsoft Gaming division
+
+HISTORY
+-------
+1972    Bill Gates and Paul Allen founded Traf-O-Data to analyze automobile traffic data.
+1975    Microsoft established on April 4, 1975 in Albuquerque, New Mexico, after Gates
+        and Allen developed a BASIC interpreter for the Altair 8800 microcomputer.
+        Allen suggested the name "Micro-Soft" (short for micro-computer software).
+1977    First international office opened in Japan (ASCII Microsoft).
+1979    Headquarters moved to Bellevue, Washington.
+1980    IBM awarded Microsoft a contract to provide the OS for the IBM PC. Microsoft
+        purchased 86-DOS and rebranded it as MS-DOS.
+1981    IBM PC released with MS-DOS. Microsoft retained OS ownership.
+1983    Microsoft Mouse released; Microsoft Press publishing division launched.
+        Paul Allen resigned after being diagnosed with Hodgkin's lymphoma.
+1985    Windows 1.0 released (November 20) — a graphical extension for MS-DOS.
+1986    Headquarters moved to Redmond, Washington. IPO on NASDAQ (March 13).
+        The IPO created 3 billionaires and ~12,000 millionaires among employees.
+1990    Windows 3.0 released — became widely popular (60 million copies sold).
+        Federal Trade Commission began examining Microsoft for potential collusion.
+1993    Windows NT released.
+2000    Steve Ballmer replaced Gates as CEO.
+2002    Microsoft launched the .NET initiative and new developer tools.
+2004    Windows XP Media Center Edition 2005 released.
+2009    Windows 7 released, praised by reviewers.
+2011    Skype acquired for $8.5 billion (then-largest acquisition).
+2012    Windows 8 released; Surface line of hybrid tablets introduced.
+2014    Satya Nadella became CEO, refocusing the company on cloud computing.
+2016    LinkedIn acquired for $26.2 billion.
+2018    Joined the Open Invention Network community (holding 60,000+ patents).
+        Won contract to supply 100,000 HoloLens headsets to the U.S. military.
+2019    Became third U.S. publicly traded company valued over $1 trillion (April).
+2022    Microsoft Gaming division established.
+2023    Activision Blizzard acquired for $68.7 billion — largest-ever acquisition.
+2025    Cloud revenue represents ~61% of total company revenue.
+
+DIVISIONS
+---------
+- Xbox
+- Microsoft 365
+- Microsoft Research
+- Microsoft AI
+- Windows and Devices Group
+- Microsoft Cloud
+- Microsoft Security
+- Microsoft Industry
+- Microsoft Business Applications
+- Microsoft Developer
+
+LEADERSHIP (KEY PEOPLE)
+-----------------------
+- Satya Nadella — Chairman & CEO (since 2014)
+- Brad Smith — Vice Chairman & President
+- Bill Gates — Technical Adviser (co-founder)
+
+NOTABLE FACTS
+-------------
+- First software company to reach $1 billion in revenues.
+- Windows holds ~86–92% worldwide PC operating system market share.
+- Azure cloud revenue grew from 5% of total revenue (2014) to ~61% (2025).
+- Nasdaq: MSFT; component of DJIA, S&P 100, S&P 500, Nasdaq-100.
+- Has been criticized for monopolistic practices and software security issues.
+- Predecessor company: Traf-O-Data (1972).
+
+================================================================================
+END OF FILE
+================================================================================

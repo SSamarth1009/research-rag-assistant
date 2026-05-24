@@ -1,0 +1,131 @@
+================================================================================
+NVIDIA CORPORATION — Wikipedia Data Extract
+Source: https://en.wikipedia.org/wiki/Nvidia
+Date Extracted: May 19, 2026
+================================================================================
+
+OVERVIEW
+--------
+Nvidia Corporation is an American multinational technology company headquartered in
+Santa Clara, California. The company develops graphics processing units (GPUs),
+systems on chips (SoCs), and application programming interfaces (APIs) for data
+science, high-performance computing, video games, and mobile and automotive
+applications. Founded in 1993 by Jensen Huang, Chris Malachowsky, and Curtis Priem,
+Nvidia has been widely described as a Big Tech company and a dominant force in the
+AI hardware market.
+
+COMPANY PROFILE
+---------------
+Full Name:        Nvidia Corporation
+Type:             Public (Nasdaq: NVDA)
+Founded:          April 5, 1993 (in Sunnyvale, California)
+Founders:         Jensen Huang, Chris Malachowsky, Curtis Priem
+Headquarters:     Santa Clara, California, U.S.
+Area Served:      Worldwide
+Current CEO:      Jensen Huang (President & CEO)
+Chief Scientist:  Bill Dally
+Employees:        42,000 (FY26)
+Website:          nvidia.com
+
+FINANCIAL DATA (FY2026)
+-----------------------
+Revenue:          US$215.9 billion
+Operating Income: US$130.4 billion
+Net Income:       US$120.1 billion
+Total Assets:     US$206.8 billion
+Total Equity:     US$144.3 billion
+
+KEY PRODUCTS & SERVICES
+-----------------------
+GPUs (Consumer):    GeForce series (gaming and creative workloads)
+GPUs (Pro):         Quadro / RTX professional series (scientific, industrial,
+                    visualization, architecture, media & entertainment)
+Computing:          CUDA — parallel computing platform and API
+AI/Data Center:     H100, A100, and Blackwell GPU architectures for AI training
+Mobile:             Tegra line of mobile processors (smartphones, tablets, automotive)
+Gaming Hardware:    Shield Portable, Shield Tablet, Shield TV
+Cloud Gaming:       GeForce Now cloud gaming service
+AI Software:        Nvidia Maxine (AI-powered audio/video processing)
+Networking:         Mellanox Technologies (acquired) — high-performance networking
+
+SUBSIDIARIES
+------------
+- Bright Computing
+- Cumulus Networks
+- DeepMap
+- Mellanox Technologies (acquired 2020)
+- Mental Images
+
+HISTORY
+-------
+Late 1992  Jensen Huang, Chris Malachowsky, and Curtis Priem met at a Denny's diner
+           on Berryessa Road in East San Jose and agreed to start a company focused
+           on graphics-based computing.
+
+1993       Nvidia incorporated on April 5, 1993. The three founders initially worked
+           in Priem's townhouse in Fremont, California. Started with $40,000 in the
+           bank. Received $20 million in venture capital funding from Sequoia Capital,
+           Sutter Hill Ventures, and others. Name derived from "invidia" (Latin for
+           "envy"), chosen after many rejected candidates including "NVision".
+
+1994–1999  During the late 1990s, Nvidia was one of ~70 startups pursuing graphics
+           acceleration. Only two survived: Nvidia and ATI Technologies (later
+           acquired by AMD).
+           First product: NV1 graphics accelerator (used quadrilateral primitives),
+           which failed commercially after Microsoft's DirectX standardized on
+           triangles instead.
+
+Early 2000s  Nvidia invested over $1 billion to develop CUDA, a parallel computing
+             platform allowing GPUs to run massively parallel programs for a wide
+             range of compute-intensive applications.
+
+1999       Initial public offering (IPO) on Nasdaq.
+
+2020       Mellanox Technologies acquired, strengthening Nvidia's data center and
+           networking capabilities.
+
+2023       Nvidia became the seventh U.S. company to reach a $1 trillion market
+           valuation, driven by soaring demand for AI hardware.
+
+2025       Nvidia became the first company in the world to surpass $4 trillion and
+           subsequently $5 trillion in market capitalization, driven by demand for
+           AI data center hardware during the AI boom. Holds over 80% of the market
+           for GPUs used in training and deploying AI models. Powers over 75% of
+           TOP500 supercomputers worldwide.
+
+MARKET POSITION
+---------------
+- Holds ~92% share of the discrete desktop and laptop GPU market (Q1 2025).
+- Controls over 80% of the market for GPUs used in AI training/deployment (2025).
+- Provides chips for over 75% of the world's TOP500 supercomputers.
+- One of Bloomberg's "Magnificent Seven" — the seven biggest companies by
+  market capitalization.
+- Listed on Nasdaq-100, DJIA, S&P 100, S&P 500.
+
+AI & COMPUTING SIGNIFICANCE
+----------------------------
+OpenAI developed ChatGPT (launched 2022) using a supercomputer powered by
+10,000 Nvidia GPUs. Nvidia's GPU technology excels at parallel processing —
+using many cores to allow multiple processes to run simultaneously — which
+proved ideally suited for training large AI models.
+
+FOUNDERS — BACKGROUND
+----------------------
+Jensen Huang:        Taiwanese-American electrical engineer; former director at
+                     LSI Logic and microprocessor designer at AMD.
+Chris Malachowsky:   Engineer who worked at Sun Microsystems.
+Curtis Priem:        Senior staff engineer and graphics chip designer at IBM
+                     and Sun Microsystems.
+
+NOTABLE FACTS
+-------------
+- Name origin: from "invidia," the Latin word for "envy."
+- The company's founding vision: "Video games were simultaneously one of the most
+  computationally challenging problems and would have incredibly high sales volume."
+  (Jensen Huang)
+- Originally headquartered in Sunnyvale, CA (after outgrowing Priem's townhouse).
+- Nasdaq: NVDA
+
+================================================================================
+END OF FILE
+================================================================================
