@@ -1,52 +1,13 @@
-# from langchain_chroma import Chroma
-# from langchain_openai import OpenAIEmbeddings
-# from dotenv import load_dotenv
-
-# load_dotenv()
-
-# persistent_directory = "db/chroma_db"
-
-# # load embeddings and vectory store
-# embedding_model = OpenAIEmbeddings(model= "text-embedding-3-small")
-
-# vectorstore = Chroma(
-#         persistent_directory = persistent_directory,
-#         embedding_function=embedding_model,
-#         collection_metadata = {"hnsw:space": "cosine"}
-#     )
-
-# # Search for relevant documents
-# query = "When was spaceX founded? Who were the founding members?"
-
-# retriever = db.as_retreiver(search_kwargs={"k":3})
-
-# # retriever = db.as_retreiver(
-# #     search_type ="similarity_score_threshold",
-# #     search_kwargs ={
-# #         "k" = 5,
-# #         "score_threshold": 0.3 # Only return chunks cosine similarity >=0.3
-# #     }
-# # )
-
-# relevant_docs = retriever.invoke(query)
-
-# print(f"User query: {query}")
-
-# # Display results
-# print(f"----- Context -----")
-# for i, doc in enumerate(relevant_docs,1):
-#     print(f"Document {i}: \n{doc.page_content}\n")
-
-
-
-
-
-
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, SystemMessage
+import os
 
 load_dotenv()
+
+#print(os.getenv("OPENAI_API_KEY"))
 
 persist_directory = "db/chroma_db"
 
@@ -62,14 +23,14 @@ vectorstore = Chroma(
 )
 
 # User query
-query = "When did microsoft acquire github?"
+query = "For how much was github acquired by microsfot??"
 
 # Create retriever
 retriever = vectorstore.as_retriever(
     search_kwargs={"k": 3}
 )
 
-# Retrieve relevant documents``
+# Retrieve relevant documents
 relevant_docs = retriever.invoke(query)
 
 print(f"\nUser Query: {query}")
@@ -88,3 +49,27 @@ for i, doc in enumerate(relevant_docs, 1):
     print(doc.metadata)
 
     print("\n")
+
+combined_input = f""" Based on the following retrieved documents, answer the question: {query}
+
+Documents:
+{chr(10).join([doc.page_content for doc in relevant_docs])} #
+combines multiple documents into a single string with newline separation because, gpt expects a single string input.
+
+Please provide a clear and concise answer based on the information from the retrieved documents. If the documents do not contain enough information to answer the question, say I don't have enough information to answer the question.
+"""
+
+model = ChatOpenAI(model="gpt-4o", temperature=0)
+
+messages = [
+    SystemMessage(content="You are a helpful assistant that answers questions based on the provided retrieved documents."),
+    HumanMessage(content=combined_input),
+]
+
+# Invoke the model with compbined input
+result = model.invoke(messages)
+
+# Display the full result and content only
+print("\n----- Final Answer -----\n")
+print("Content only:")
+print(result.content)

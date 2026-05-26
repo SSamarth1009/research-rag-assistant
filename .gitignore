@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+
+# Data
+data/
+vector_store/
+qdrant_storage/
+
+# Logs
+*.log
