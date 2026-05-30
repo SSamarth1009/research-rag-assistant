@@ -1,21 +1,16 @@
+# Environment
+.env
+
 # Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
+.venv/
 venv/
 
-
-# IDE
-.vscode/
+# Vector DB / generated data
+db/
+vector_store/
+data/
 
 # OS
 .DS_Store
-
-# Data
-data/
-vector_store/
-qdrant_storage/
-
-# Logs
-*.log

@@ -23,7 +23,7 @@ vectorstore = Chroma(
 )
 
 # User query
-query = "For how much was github acquired by microsfot??"
+query = "Tell me about Jensen Huang's background and career achievements."
 
 # Create retriever
 retriever = vectorstore.as_retriever(
