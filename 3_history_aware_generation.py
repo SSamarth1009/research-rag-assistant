@@ -1,11 +1,7 @@
 from dotenv import load_dotenv
 from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_core.messages import (
-    HumanMessage,
-    SystemMessage,
-    AIMessage,
-)
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 # ============================================================
 # STEP 1: Load environment variables

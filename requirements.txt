@@ -4,3 +4,4 @@ langchain_text_spilitters
 langchain_openai
 langchain_chroma
 python_dotenv
+langchain_experimental
