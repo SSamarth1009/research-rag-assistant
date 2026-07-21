@@ -5,3 +5,4 @@ langchain_openai
 langchain_chroma
 python_dotenv
 langchain_experimental
+streamlit
