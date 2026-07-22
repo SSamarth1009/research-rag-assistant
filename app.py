@@ -30,12 +30,6 @@ for source in sources:
     )
 
 
-for source in sources:
-    st.sidebar.write(
-        "📄",
-        source
-    )
-
 # ------------------------
 # User Query
 # ------------------------
