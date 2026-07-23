@@ -1,58 +1,87 @@
-import streamlit as st
 import os
-from retrieval_pipeline import generate_answer
+import streamlit as st
 
-# ------------------------
-# Page Configuration
-# ------------------------
+from RetrievalPipeline.prompt_builder import generate_answer
+
+# --------------------------------------------------
+# Page Config
+# --------------------------------------------------
+
 st.set_page_config(
     page_title="Research Paper RAG",
+    page_icon="📚",
     layout="wide"
 )
 
+# --------------------------------------------------
+# Header
+# --------------------------------------------------
 
-# ------------------------
-# Title
-# ------------------------
 st.title("📚 Research Paper RAG Assistant")
+st.caption("Ask questions about your uploaded research papers.")
 
+# --------------------------------------------------
+# Sidebar
+# --------------------------------------------------
 
-# ------------------------
-# Sidebar - Sources
-# ------------------------
-st.sidebar.title("Sources")
-sources = os.listdir("docs")
+st.sidebar.header("Available Documents")
 
-for source in sources:
-    st.sidebar.write(
-        "📄",
-        source
-    )
+docs_folder = "docs"
 
+if os.path.exists(docs_folder):
 
-# ------------------------
-# User Query
-# ------------------------
+    documents = sorted(os.listdir(docs_folder))
+
+    for document in documents:
+        st.sidebar.write(f"📄 {document}")
+
+else:
+    st.sidebar.warning("No documents found.")
+
+# --------------------------------------------------
+# Query Input
+# --------------------------------------------------
+
 query = st.text_input(
-    "Ask a question about your documents"
+    "Enter your question:"
 )
 
+# --------------------------------------------------
+# Search Button
+# --------------------------------------------------
 
+if st.button("Search", use_container_width=True):
 
-if st.button("Search"):
-    if query:
-        with st.spinner(
-            "Searching documents..."
-        ):
-            result = generate_answer(query)
+    if not query.strip():
+        st.warning("Please enter a question.")
+        st.stop()
 
+    with st.spinner("Searching..."):
 
-        # Answer
-        st.subheader("Answer")
-        st.write(result["answer"])
+        result = generate_answer(query)
 
-        # Sources
-        st.subheader("Sources")
+    # -------------------------
+    # Answer
+    # -------------------------
 
-        for doc in result["sources"]:
-            st.write( "📄",doc.metadata["source"])
+    st.subheader("Answer")
+
+    st.write(result["answer"])
+
+    # -------------------------
+    # Sources
+    # -------------------------
+
+    st.subheader("Retrieved Sources")
+
+    unique_sources = []
+
+    for doc in result["sources"]:
+
+        source = doc.metadata.get("source")
+
+        if source not in unique_sources:
+            unique_sources.append(source)
+
+    for source in unique_sources:
+        st.write(f"📄 {source}")

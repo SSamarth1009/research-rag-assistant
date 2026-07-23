@@ -9,7 +9,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = "gpt-4o-mini"           # cheaper than gpt-4o, good enough for MVP
 
 # Embeddings — switching from OpenAI to BGE (free, local, competitive quality)
-EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
+EMBEDDING_MODEL = "text-embedding-3-small"
 
 # ChromaDB
 CHROMA_PERSIST_DIR = "db/chroma_db"
