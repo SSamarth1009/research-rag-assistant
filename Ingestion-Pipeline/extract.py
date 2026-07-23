@@ -9,7 +9,7 @@ def extract_pdf(pdf_path):
     pdf = fitz.open(pdf_path)
     pages = {}
 
-    for page_number, page in pages in enumerate(pdf,start = 1):
+    for page_number, page in enumerate(pdf, start=1):
         text = page.get_text().strip()
         if text: 
             pages[page_number] = text
@@ -68,3 +68,19 @@ def extract_document(file_path):
         return extract_txt(file_path)
     else:
         raise ValueError(f"Unsupported file type: {extension}")
+
+if __name__ == "__main__":
+    docs_folder = "../docs"
+    for file in os.listdir(docs_folder):
+        file_path = os.path.join(docs_folder, file)
+
+        data = extract_document(file_path)
+
+        print(f"\nProcessed: {data['document_name']}")
+        print(f"Type: {data['file_type']}")
+        if data["file_type"] == "pdf":
+            first_page = next(iter(data["pages"].values()))
+            print(first_page[:300])
+
+        else:
+            print(data["content"][:300])
