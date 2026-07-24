@@ -34,6 +34,11 @@ def create_page(page_number: int, text: str = ""):
 
     return page
 
+
+###########################################################################
+#---------------------PDF EXTRACTION FUNCTIONS-----------------------------
+###########################################################################
+
 def extract_pdf_tables(page):
     """
     Extract tables from a pdfplumber page while preserving structure.
@@ -50,20 +55,84 @@ def extract_pdf_tables(page):
 
     return tables
 
+
+def extract_pdf_figures(page, document_name):
+    figures = []
+    image_list = page.get_images(full=True)
+
+    if not image_list:
+        return figures
+
+    document_stem = os.path.splitext(document_name)[0]
+    figure_dir = os.path.join("figures",document_stem)
+    os.makedirs(figure_dir, exist_ok=True)
+
+    for idx, image in enumerate(image_list):
+        xref = image[0]
+        pix = fitz.Pixmap(page.parent, xref)
+
+        if pix.n < 5:
+            image_path = os.path.join(
+                figure_dir,
+                f"page_{page.number+1}_figure_{idx+1}.png"
+            )
+
+            pix.save(image_path)
+
+        else:
+            rgb = fitz.Pixmap(fitz.csRGB, pix)
+
+            image_path = os.path.join(
+                figure_dir,
+                f"page_{page.number+1}_figure_{idx+1}.png"
+            )
+
+            rgb.save(image_path)
+            rgb = None
+
+        pix = None
+
+        figures.append(
+            {
+                "id": idx,
+                "xref": xref,
+                "page_number": page.number + 1,
+                "image_path": image_path,
+                "bbox": None,
+                "caption": None,
+                "ocr_text": None,
+                "metadata": {}
+            }
+        )
+
+    return figures
+
+
 def extract_pdf(pdf_path):
     """
     Extracts text from a PDF file.
     """
     pdf = fitz.open(pdf_path)
     plumber_pdf = pdfplumber.open(pdf_path)
-    document = create_document(os.path.basename(pdf_path),"pdf")
+    document_name = os.path.basename(pdf_path)
+    document = create_document(document_name, "pdf")
 
     for page_number, (fitz_page, plumber_page) in enumerate(zip(pdf, plumber_pdf.pages),start=1):
         text = fitz_page.get_text().strip()
         tables = extract_pdf_tables(plumber_page)
+        figures = extract_pdf_figures(fitz_page,document_name)
+
         page_data = create_page(page_number, text)
         page_data["tables"] = tables
+        page_data["figures"] = figures
+
         document["pages"].append(page_data)
+        print(
+        f"Page {page_number}: "
+        f"Text={len(page_data['text_blocks'])}, "
+        f"Tables={len(page_data['tables'])}, "
+        f"Figures={len(page_data['figures'])}"
+        )
         document["metadata"]["page_count"] = pdf.page_count
 
     pdf.close()
@@ -71,6 +140,10 @@ def extract_pdf(pdf_path):
 
     return document
 
+
+###########################################################################
+#---------------------DOCX EXTRACTION FUNCTIONS-----------------------------
+###########################################################################
 
 def extract_docx(docx_path):
     """
@@ -90,6 +163,10 @@ def extract_docx(docx_path):
 
     return document
 
+
+###########################################################################
+#---------------------TXT EXTRACTION FUNCTIONS-----------------------------
+###########################################################################
 
 def extract_txt(txt_path):
     """
