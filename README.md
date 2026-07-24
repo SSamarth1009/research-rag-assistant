@@ -2,7 +2,7 @@
 
 Production-style AI Research Copilot using:
 - FastAPI
-- Qdrant
+- ChromaDB
 - LlamaIndex
 - Streamlit
 - Sentence Transformers
