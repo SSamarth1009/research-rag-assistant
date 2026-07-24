@@ -1,21 +1,18 @@
-from openai import OpenAI
-from dotenv import load_dotenv
-import os
+import camelot
 
-load_dotenv()
+pdf_path = "docs/Billion-scale similarity search with GPUs.pdf"
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
+print("Trying Stream...\n")
+
+tables = camelot.read_pdf(
+    pdf_path,
+    pages="all",
+    flavor="stream"
 )
 
-response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {
-            "role": "user",
-            "content": "hello"
-        }
-    ]
-)
+print(f"Tables found: {tables.n}")
 
-print(response.choices[0].message.content)
+for i, table in enumerate(tables):
+    print("\n" + "=" * 80)
+    print(f"Table {i+1}")
+    print(table.df)

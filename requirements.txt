@@ -8,3 +8,5 @@ langchain_experimental
 streamlit
 python-docx
 pymupdf
+pdfplumber
+camelot-py[cv]

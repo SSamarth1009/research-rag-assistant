@@ -3,32 +3,28 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from IngestionPipeline.extract import extract_document
 
-text_splitter = RecursiveCharacterTextSplitter(chunk_size = 800, chunk_overlap = 200)
+paragraph_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=800,
+    chunk_overlap=200
+)
 
 # ---------------------------------------------------------
 # Split Extracted Documents
 # ---------------------------------------------------------
 
-def split_text(data):
+def build_chunks(document):
     """
-    Split extracted document content into LangChain Documents.
+    Split the extracted document into chunks and return a list of Document objects.
     """
-    document_name = data["document_name"]
-    title = data.get("title")
-    authors = data.get("authors")
-    file_type = data["file_type"]
-
+    metadata = document["metadata"]
+    document_name = metadata["document_name"]
+    file_type = metadata["file_type"]
     documents = []
-
-    # -----------------------------------------------------
-    # PDF
-    # -----------------------------------------------------
-
-    if file_type == "pdf":
-        pages = data["pages"]
-
-        for page_number, page_content in pages.items():
-            chunks = text_splitter.split_text(page_content)
+    for page in document["pages"]:
+        page_number = page["page_number"]
+        for block in page["text_blocks"]:
+            text = block["content"]
+            chunks = paragraph_splitter.split_text(text)
             for chunk in chunks:
                 documents.append(
                     Document(
@@ -36,70 +32,20 @@ def split_text(data):
                         metadata={
                             "id": str(uuid.uuid4()),
                             "source": document_name,
-                            "title": title,
-                            "authors": authors,
+                            "file_type": file_type,
                             "page_number": page_number,
-                            "file_type": file_type
+                            "block_id": block["id"],
+                            "block_type": block["type"],
                         }
                     )
                 )
 
-    # -----------------------------------------------------
-    # DOCX
-    # -----------------------------------------------------
-
-    elif file_type == "docx":
-        chunks = text_splitter.split_text(data["content"])
-
-        for chunks in chunks:
-            documents.append(
-                Document(
-                    page_content = chunks,
-                    metadata ={
-                        "id": str(uuid.uuid4()),
-                        "source": document_name,
-                        "title": title,
-                        "authors": authors,
-                        "file_type": file_type
-                    }
-                )
-            )
-
-    # -----------------------------------------------------
-    # TXT
-    # -----------------------------------------------------
-
-    elif file_type == "txt":
-
-        chunks = text_splitter.split_text(
-            data["content"]
-        )
-
-        for chunk in chunks:
-
-            documents.append(
-                Document(
-                    page_content=chunk,
-                    metadata={
-                        "id": str(uuid.uuid4()),
-                        "source": document_name,
-                        "title": title,
-                        "authors": authors,
-                        "file_type": file_type
-                    }
-                )
-            )
-
-    else:
-        raise ValueError(
-            f"Unsupported file type: {file_type}"
-        )
-
     return documents
+
 
 if __name__ == "__main__":
     data = extract_document("../docs/sample.pdf")
-    docs = split_text(data)
+    docs = build_chunks(data)
 
     print(f"Total chunks: {len(docs)}")
     print("\nFirst Chunk:\n")
