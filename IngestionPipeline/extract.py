@@ -1,7 +1,17 @@
 import os
 import fitz
 import pdfplumber
+from PIL import Image
 from docx import Document
+from doclayout_yolo import YOLOv10
+
+
+#Adding Model for Layout Detection
+LAYOUT_MODEL = YOLOv10("../models/doclayout_yolo_docstructbench_imgsz1024.pt")
+
+###########################################################################
+#---------------------Helper Functions-----------------------------
+###########################################################################
 
 def create_document(document_name: str, file_type: str):
     return {
@@ -19,6 +29,7 @@ def create_page(page_number: int, text: str = ""):
     """
     page = {
         "page_number": page_number,
+        "regions": [],
         "text_blocks": [],
         "tables": [],
         "figures": [],
@@ -55,55 +66,154 @@ def extract_pdf_tables(page):
 
     return tables
 
+###########################################################################
+#---------------------LAYOUT DETECTION FUNCTIONS---------------------------
+###########################################################################
 
-def extract_pdf_figures(page, document_name):
+def detect_layout(fitz_page):
+    """
+    Detect document layout regions (paragraphs, tables,
+    figures, captions, formulas, etc.)
+
+    Args:
+        fitz_page: PyMuPDF page object
+
+    Returns:
+        List[dict]: Detected layout regions
+    """
+
+    pix = fitz_page.get_pixmap(dpi=200)
+
+    image = Image.frombytes(
+        "RGB",
+        (pix.width, pix.height),
+        pix.samples
+    )
+
+    results = LAYOUT_MODEL.predict(image)
+
+    regions = []
+
+    if not results:
+        return regions
+
+    result = results[0]
+
+    for box in result.boxes:
+
+        cls_id = int(box.cls)
+        label = result.names[cls_id]
+
+        x1, y1, x2, y2 = box.xyxy[0].tolist()
+
+        regions.append({
+            "id": len(regions),
+            "type": label,
+            "bbox": [x1, y1, x2, y2],
+            "confidence": float(box.conf)
+        })
+
+    return regions
+
+def crop_region(fitz_page, bbox, output_path):
+    """
+    Crop a layout region from a PDF page using the bounding box returned
+    by DocLayout-YOLO.
+    """
+
+    # Render the page at the same DPI used for layout detection
+    render_pix = fitz_page.get_pixmap(dpi=200)
+
+    image_width = render_pix.width
+    image_height = render_pix.height
+
+    pdf_width = fitz_page.rect.width
+    pdf_height = fitz_page.rect.height
+
+    scale_x = pdf_width / image_width
+    scale_y = pdf_height / image_height
+
+    x1, y1, x2, y2 = bbox
+    print(f"PDF Page Size : {fitz_page.rect}")
+    print(f"Rendered Size : {image_width} x {image_height}")
+    print(f"YOLO BBox     : {bbox}")
+    # Convert image coordinates -> PDF coordinates
+    rect = fitz.Rect(
+        x1 * scale_x,
+        y1 * scale_y,
+        x2 * scale_x,
+        y2 * scale_y,
+    )
+
+    # Clip to page boundaries
+    rect = rect & fitz_page.rect
+
+    # Skip invalid boxes
+    if rect.is_empty or rect.width <= 1 or rect.height <= 1:
+        return False
+
+    pix = fitz_page.get_pixmap(
+        clip=rect,
+        dpi=300
+    )
+
+    pix.save(output_path)
+    return True
+
+def extract_pdf_figures(fitz_page, document_name, regions):
+
     figures = []
-    image_list = page.get_images(full=True)
-
-    if not image_list:
-        return figures
 
     document_stem = os.path.splitext(document_name)[0]
-    figure_dir = os.path.join("figures",document_stem)
+
+    figure_dir = os.path.join(
+        "figures",
+        document_stem
+    )
+
     os.makedirs(figure_dir, exist_ok=True)
 
-    for idx, image in enumerate(image_list):
-        xref = image[0]
-        pix = fitz.Pixmap(page.parent, xref)
+    figure_id = 0
 
-        if pix.n < 5:
-            image_path = os.path.join(
-                figure_dir,
-                f"page_{page.number+1}_figure_{idx+1}.png"
-            )
+    for region in regions:
 
-            pix.save(image_path)
+        if region["type"] != "figure":
+            continue
 
-        else:
-            rgb = fitz.Pixmap(fitz.csRGB, pix)
-
-            image_path = os.path.join(
-                figure_dir,
-                f"page_{page.number+1}_figure_{idx+1}.png"
-            )
-
-            rgb.save(image_path)
-            rgb = None
-
-        pix = None
-
-        figures.append(
-            {
-                "id": idx,
-                "xref": xref,
-                "page_number": page.number + 1,
-                "image_path": image_path,
-                "bbox": None,
-                "caption": None,
-                "ocr_text": None,
-                "metadata": {}
-            }
+        image_path = os.path.join(
+            figure_dir,
+            f"page_{fitz_page.number+1}_figure_{figure_id+1}.png"
         )
+
+        success = crop_region(
+                fitz_page,
+                region["bbox"],
+                image_path
+            )
+        if not success:
+            continue
+
+        figures.append({
+
+            "id": figure_id,
+
+            "page_number": fitz_page.number + 1,
+
+            "image_path": image_path,
+
+            "bbox": region["bbox"],
+
+            "confidence": region["confidence"],
+
+            "caption": None,
+
+            "ocr_text": None,
+
+            "metadata": {}
+
+        })
+
+        figure_id += 1
 
     return figures
 
@@ -119,10 +229,21 @@ def extract_pdf(pdf_path):
 
     for page_number, (fitz_page, plumber_page) in enumerate(zip(pdf, plumber_pdf.pages),start=1):
         text = fitz_page.get_text().strip()
-        tables = extract_pdf_tables(plumber_page)
-        figures = extract_pdf_figures(fitz_page,document_name)
-
         page_data = create_page(page_number, text)
+
+        regions = detect_layout(fitz_page)
+        page_data["regions"] = regions
+        print(f"\nLayout Regions (Page {page_number})")
+
+        for region in regions:
+            print(
+                f"{region['type']:<15}"
+                f"{region['confidence']:.2f}"
+            )
+
+        tables = extract_pdf_tables(plumber_page)
+        figures = extract_pdf_figures(fitz_page, document_name, regions)
+
         page_data["tables"] = tables
         page_data["figures"] = figures
 
