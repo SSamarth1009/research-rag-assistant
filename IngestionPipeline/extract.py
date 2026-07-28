@@ -23,17 +23,48 @@ def create_document(document_name: str, file_type: str):
         "pages": []
     }
 
+
+def create_knowledge_object(
+    object_id: int,
+    object_type: str,
+    content=None,
+    bbox=None,
+    metadata=None
+):
+    """
+    Create a standardized knowledge object.
+
+    Every piece of extracted information
+    (paragraph, table, figure, caption, etc.)
+    should follow this schema.
+    """
+
+    return {
+        "id": object_id,
+        "type": object_type,
+        "content": content,
+        "bbox": bbox,
+        "metadata": metadata or {}
+    }
+
+
 def create_page(page_number: int, text: str = ""):
     """
     Create a standardized page representation.
     """
     page = {
         "page_number": page_number,
-        "regions": [],
+
+        # Existing structures (temporary)
         "text_blocks": [],
         "tables": [],
         "figures": [],
         "charts": [],
+
+        # New normalized structure
+        "knowledge_objects": [],
+
+        "regions": [],
         "metadata": {}
     }
     if text:
