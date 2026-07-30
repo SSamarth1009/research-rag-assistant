@@ -3,7 +3,6 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 from uuid import UUID, uuid4
 
-id: UUID = Field(default_factory=uuid4)
 
 
 class KnowledgeType(str, Enum):
@@ -40,12 +39,11 @@ class Region(BaseModel):
 
 
 class KnowledgeObject(BaseModel):
-    id: str
+    id: UUID = Field(default_factory=uuid4)
     type: KnowledgeType
-    content: Any = None
+    content: Any | None = None
     bbox: Optional[BoundingBox] = None
     metadata: Dict[str, Any] = Field(default_factory=dict)
-
 
 class Page(BaseModel):
     page_number: int
