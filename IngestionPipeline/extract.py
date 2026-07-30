@@ -55,7 +55,7 @@ def create_page(page_number: int, text: str = ""):
     page = {
         "page_number": page_number,
 
-        # Existing structures (temporary)
+        # Existing structures (temporary)cls
         "text_blocks": [],
         "tables": [],
         "figures": [],
@@ -73,6 +73,17 @@ def create_page(page_number: int, text: str = ""):
             "type": "paragraph",
             "content": text
         })
+
+        page["knowledge_objects"].append(
+        create_knowledge_object(
+            object_id=0,
+            object_type="paragraph",
+            content=text,
+            metadata={
+                "page_number": page_number
+            }
+        )
+    )
 
     return page
 
