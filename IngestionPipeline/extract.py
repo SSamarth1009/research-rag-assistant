@@ -14,6 +14,26 @@ LAYOUT_MODEL = YOLOv10("../models/doclayout_yolo_docstructbench_imgsz1024.pt")
 ###########################################################################
 #---------------------PDF EXTRACTION FUNCTIONS-----------------------------
 ###########################################################################
+LABEL_MAPPING = {
+    "title": KnowledgeType.TITLE,
+
+    "plain text": KnowledgeType.PARAGRAPH,
+
+    "table": KnowledgeType.TABLE,
+    "table_caption": KnowledgeType.TABLE_CAPTION,
+
+    "figure": KnowledgeType.FIGURE,
+    "figure_caption": KnowledgeType.FIGURE_CAPTION,
+
+    "isolate_formula": KnowledgeType.FORMULA,
+    "formula_caption": KnowledgeType.FORMULA_CAPTION,
+
+    "header": KnowledgeType.HEADER,
+    "footer": KnowledgeType.FOOTER,
+
+    "list": KnowledgeType.LIST,
+}
+
 
 def detect_layout(fitz_page) -> list[Region]:
     """
@@ -39,9 +59,11 @@ def detect_layout(fitz_page) -> list[Region]:
         cls_id = int(box.cls)
         label = result.names[cls_id]
         try:
-            region_type = KnowledgeType(label)
+            region_type = LABEL_MAPPING.get(label, KnowledgeType.UNKNOWN)
         except ValueError:
             region_type = KnowledgeType.UNKNOWN
+
+        print(f"{label:20} ---> {region_type.value}")
 
         x1, y1, x2, y2 = box.xyxy[0].tolist()
 
@@ -60,6 +82,29 @@ def detect_layout(fitz_page) -> list[Region]:
 
     return regions
 
+def image_bbox_to_pdf_rect(fitz_page, bbox: BoundingBox) -> fitz.Rect:
+    """
+    Convert a YOLO/image-space bounding box into PDF coordinates.
+    """
+    pdf_rect = fitz_page.rect
+    pdf_width = pdf_rect.width
+    pdf_height = pdf_rect.height
+
+    pix = fitz_page.get_pixmap(matrix=fitz.Matrix(1700 / pdf_width, 2200 / pdf_height))
+    rendered_width = pix.width
+    rendered_height = pix.height
+
+    scale_x = pdf_width / rendered_width
+    scale_y = pdf_height / rendered_height
+
+    return fitz.Rect(
+        bbox.x1 * scale_x,
+        bbox.y1 * scale_y,
+        bbox.x2 * scale_x,
+        bbox.y2 * scale_y,
+    )
+
+
 def crop_region(fitz_page, bbox, output_path):
     """
     Crop a layout region from a PDF page using the bounding box returned
@@ -72,26 +117,28 @@ def crop_region(fitz_page, bbox, output_path):
     image_width = render_pix.width
     image_height = render_pix.height
 
-    pdf_width = fitz_page.rect.width
-    pdf_height = fitz_page.rect.height
+    # pdf_width = fitz_page.rect.width
+    # pdf_height = fitz_page.rect.height
 
-    scale_x = pdf_width / image_width
-    scale_y = pdf_height / image_height
+    # scale_x = pdf_width / image_width
+    # scale_y = pdf_height / image_height
 
-    x1 = bbox.x1
-    y1 = bbox.y1
-    x2 = bbox.x2
-    y2 = bbox.y2
+    # x1 = bbox.x1
+    # y1 = bbox.y1
+    # x2 = bbox.x2
+    # y2 = bbox.y2
+    pdf_bbox = image_bbox_to_pdf_rect(fitz_page, bbox)
     print(f"PDF Page Size : {fitz_page.rect}")
     print(f"Rendered Size : {image_width} x {image_height}")
     print(f"YOLO BBox     : {bbox}")
     # Convert image coordinates -> PDF coordinates
-    rect = fitz.Rect(
-        x1 * scale_x,
-        y1 * scale_y,
-        x2 * scale_x,
-        y2 * scale_y,
-    )
+    # rect = fitz.Rect(
+    #     x1 * scale_x,
+    #     y1 * scale_y,
+    #     x2 * scale_x,
+    #     y2 * scale_y,
+    # )
+    rect = pdf_bbox
 
     # Clip to page boundaries
     rect = rect & fitz_page.rect
@@ -162,6 +209,53 @@ def extract_pdf_figures(fitz_page,document_name: str,regions: list[Region],) -> 
         )
     return figures
 
+def extract_pdf_text_regions(
+    fitz_page,
+    regions: list[Region],
+) -> list[KnowledgeObject]:
+
+    text_types = {
+        KnowledgeType.TITLE,
+        KnowledgeType.PARAGRAPH,
+        KnowledgeType.HEADER,
+        KnowledgeType.FOOTER,
+        KnowledgeType.LIST,
+    }
+
+    knowledge_objects = []
+
+    for region in regions:
+
+        if region.type not in text_types:
+            continue
+
+        pdf_rect = image_bbox_to_pdf_rect(
+            fitz_page,
+            region.bbox,
+        )
+
+        text = fitz_page.get_text(
+            "text",
+            clip=pdf_rect,
+        ).strip()
+
+        if not text:
+            continue
+
+        knowledge_objects.append(
+            KnowledgeObject(
+                type=region.type,
+                bbox=region.bbox,
+                content=text,
+                metadata={
+                    "page_number": fitz_page.number + 1,
+                    "confidence": region.confidence,
+                },
+            )
+        )
+
+    return knowledge_objects
+
 
 def extract_pdf(pdf_path: str) -> Document:
 
@@ -183,15 +277,11 @@ def extract_pdf(pdf_path: str) -> Document:
         page.regions.extend(regions)
 
         # ---------- Text ----------
-        text = fitz_page.get_text().strip()
-        if text:
-            page.knowledge_objects.append(
-                KnowledgeObject(
-                    type=KnowledgeType.PARAGRAPH,
-                    content=text,
-                    metadata={}
-                )
-            )
+        page.knowledge_objects.extend(
+        extract_pdf_text_regions(
+            fitz_page,
+            regions,
+        ))
 
         # ---------- Tables ----------
         page.knowledge_objects.extend(
@@ -292,29 +382,29 @@ def extract_document(file_path):
 if __name__ == "__main__":
     docs_folder = "docs"
 
-for file in os.listdir(docs_folder):
-    path = os.path.join(docs_folder, file)
+    for file in os.listdir(docs_folder):
+        path = os.path.join(docs_folder, file)
 
-    document = extract_document(path)
+        document = extract_document(path)
 
-    print("\n" + "=" * 60)
+        print("\n" + "=" * 60)
 
-    print(document.document_name)
-    print(document.document_type)
-    print(len(document.pages))
+        print(document.document_name)
+        print(document.document_type)
+        print(len(document.pages))
 
-    if document.pages:
+        if document.pages:
 
-        first_page = document.pages[0]
+            first_page = document.pages[0]
 
-        print("\nKnowledge Objects")
+            print("\nKnowledge Objects")
 
-        for obj in first_page.knowledge_objects:
+            for obj in first_page.knowledge_objects:
 
-            print(
-                obj.type.value,
-                str(obj.content)[:150],
-            )
+                print(
+                    obj.type.value,
+                    str(obj.content)[:150],
+                )
 
 
 #python -m IngestionPipeline.extract
