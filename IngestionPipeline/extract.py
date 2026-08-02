@@ -8,7 +8,7 @@ from schemas.schemas import Document, Page, Region, BoundingBox, KnowledgeObject
 
 
 #Adding Model for Layout Detection
-LAYOUT_MODEL = YOLOv10("../models/doclayout_yolo_docstructbench_imgsz1024.pt")
+LAYOUT_MODEL = YOLOv10("models/doclayout_yolo_docstructbench_imgsz1024.pt") # *A fully trained neural network that is trainded on multiple PDF's
 
 
 ###########################################################################
@@ -42,8 +42,8 @@ def detect_layout(fitz_page) -> list[Region]:
     Returns:
         List[Region]
     """
-    pix = fitz_page.get_pixmap(dpi=200)
-    image = Image.frombytes(
+    pix = fitz_page.get_pixmap(dpi=200) # *Convert the PDF page into an image.
+    image = Image.frombytes(  # *Pillow provides a standard image representation (PIL.Image) that the YOLO model accepts as input for layout detection.
         "RGB",
         (pix.width, pix.height),
         pix.samples,
@@ -58,6 +58,7 @@ def detect_layout(fitz_page) -> list[Region]:
     for box in result.boxes:
         cls_id = int(box.cls)
         label = result.names[cls_id]
+        #print(result.names)
         try:
             region_type = LABEL_MAPPING.get(label, KnowledgeType.UNKNOWN)
         except ValueError:
@@ -71,7 +72,7 @@ def detect_layout(fitz_page) -> list[Region]:
             Region(
                 type=region_type,
                 confidence=float(box.conf),
-                bbox=BoundingBox(
+                bbox=BoundingBox(    # *We use the BoundingBox class to store the coordinates of the detected region in the image.
                     x1=x1,
                     y1=y1,
                     x2=x2,
