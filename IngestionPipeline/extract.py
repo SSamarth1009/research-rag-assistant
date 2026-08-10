@@ -19,7 +19,7 @@ LABEL_MAPPING = {
 
     "plain text": KnowledgeType.PARAGRAPH,
 
-    "table": KnowledgeType.TABLE,
+    "table": KnowledgeType.TsABLE,
     "table_caption": KnowledgeType.TABLE_CAPTION,
 
     "figure": KnowledgeType.FIGURE,
@@ -86,6 +86,9 @@ def detect_layout(fitz_page) -> list[Region]:
 def image_bbox_to_pdf_rect(fitz_page, bbox: BoundingBox) -> fitz.Rect:
     """
     Convert a YOLO/image-space bounding box into PDF coordinates.
+    
+    Convert the bounding box detected by YOLO (image coordinates) into
+    PDF coordinates so PyMuPDF can crop the correct region.
     """
     pdf_rect = fitz_page.rect
     pdf_width = pdf_rect.width
